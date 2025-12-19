@@ -263,47 +263,6 @@ Setelah aplikasi berjalan, akses dokumentasi interaktif:
 
 - **[Authorization Guide](docs/AUTHORIZATION.md)**: Panduan lengkap tentang sistem kontrol akses dan permissions
 
-### Project Structure
-
-```
-cyber-asset-management/
-├── alembic/                 # Database migrations
-│   ├── versions/           # Migration files
-│   └── env.py              # Alembic configuration
-├── app/
-│   ├── api/                # API endpoints
-│   │   └── v1/            # API version 1
-│   │       ├── auth.py    # Authentication endpoints
-│   │       ├── assets.py  # Asset endpoints
-│   │       ├── borrows.py # Loan endpoints
-│   │       └── users.py   # User endpoints
-│   ├── core/              # Core configuration
-│   │   ├── config.py      # Settings
-│   │   ├── permissions.py # RBAC permissions
-│   │   └── security.py    # Security utilities
-│   ├── db/                # Database
-│   │   ├── base.py        # Base model
-│   │   ├── session.py     # Database session
-│   │   └── seeders/       # Database seeders
-│   ├── models/            # SQLAlchemy models
-│   ├── schemas/           # Pydantic schemas
-│   ├── services/          # Business logic
-│   ├── utils/             # Utilities
-│   │   ├── audit.py       # Audit logging
-│   │   ├── exceptions.py  # Custom exceptions
-│   │   └── response.py    # Response utilities
-│   └── main.py           # FastAPI application
-├── scripts/               # Utility scripts
-│   ├── seed_db.py        # Database seeder
-│   └── grant_permissions.sql
-├── docs/                  # Documentation
-│   └── AUTHORIZATION.md   # Authorization guide
-├── .env                   # Environment variables (create this)
-├── alembic.ini           # Alembic configuration
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
-```
-
 ### Troubleshooting
 
 #### Database Connection Error
