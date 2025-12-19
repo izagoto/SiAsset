@@ -37,8 +37,6 @@ npm run build
 
 Buat file `.env` berdasarkan `.env.example`:
 
-```env
-VITE_API_URL=http://localhost:8000/api/v1
 ```
 
 ## Features
@@ -54,38 +52,4 @@ VITE_API_URL=http://localhost:8000/api/v1
 
 ## Project Structure
 
-```
-frontend/
-├── src/
-│   ├── components/      # Reusable components
-│   ├── contexts/       # React contexts (Auth)
-│   ├── pages/          # Page components
-│   ├── services/       # API services
-│   ├── App.jsx         # Main app component
-│   ├── main.jsx        # Entry point
-│   └── index.css       # Global styles
-├── public/             # Static assets
-├── package.json
-└── vite.config.js
-```
-
-## API Integration
-
-Frontend mengkonsumsi API dari backend yang berjalan di `http://localhost:8000/api/v1`.
-
-Semua endpoint sudah terintegrasi:
-- `/auth/*` - Authentication
-- `/users/*` - User management
-- `/assets/*` - Asset management
-- `/loans/*` - Loan management
-
-## Default Credentials
-
-- **Super Admin:**
-  - Email: `superadmin@example.com`
-  - Password: `admin123`
-
-- **User:**
-  - Email: `user@example.com`
-  - Password: `user123`
 
