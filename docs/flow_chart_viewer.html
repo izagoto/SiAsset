@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Asset Management - User Flow Charts</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+        }
+        .diagram-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            overflow-x: auto;
+        }
+        .mermaid {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .nav a {
+            display: block;
+            padding: 8px 12px;
+            margin: 5px 0;
+            text-decoration: none;
+            color: #667eea;
+            border-radius: 4px;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+        .nav a:hover {
+            background: #f0f0f0;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .user-story {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <strong>📋 Navigasi</strong>
+        <a href="#overview">1. Overview Sistem</a>
+        <a href="#login">2. Flow Login</a>
+        <a href="#superadmin">3. Super Admin Journey</a>
+        <a href="#user-journey">4. User Journey</a>
+        <a href="#pinjam">5. Flow Peminjaman Aset</a>
+        <a href="#kelola-aset">6. Flow Kelola Aset</a>
+        <a href="#kelola-user">7. Flow Kelola User</a>
+        <a href="#status-loan">8. Status Peminjaman</a>
+    </div>
+
+    <div class="container">
+        <h1>🔄 Cyber Asset Management - User Flow Charts</h1>
+        
+        <div class="info">
+            <strong>📌 Tentang Flow Chart ini:</strong> Diagram ini menunjukkan bagaimana sistem berjalan dari perspektif pengguna. Flow chart dibuat user-friendly dan mudah dipahami untuk semua pengguna aplikasi.
+        </div>
+
+        <h2 id="overview">1. Overview Sistem - Bagaimana Aplikasi Bekerja</h2>
+        <div class="user-story">
+            <strong>🎯 Tujuan Sistem:</strong> Aplikasi ini membantu Divisi Cyber mengelola aset, mencatat peminjaman, dan melacak status aset secara terstruktur.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TB
+    Start([Pengguna Membuka Aplikasi]) --> Login{Login ke Sistem}
+    
+    Login -->|Berhasil| CheckRole{Peran Pengguna?}
+    Login -->|Gagal| LoginError[❌ Email/Password Salah<br/>Coba Lagi]
+    
+    CheckRole -->|Super Admin| SuperAdminMenu[Menu Super Admin]
+    CheckRole -->|User| UserMenu[Menu User]
+    
+    SuperAdminMenu --> SA1[✅ Kelola Aset<br/>Tambah/Edit/Hapus]
+    SuperAdminMenu --> SA2[✅ Kelola User<br/>Tambah/Edit/Nonaktifkan]
+    SuperAdminMenu --> SA3[✅ Kelola Peminjaman<br/>Setujui/Tolak/Kelola]
+    SuperAdminMenu --> SA4[✅ Lihat Semua Data<br/>Aset, User, Peminjaman]
+    SuperAdminMenu --> SA5[✅ Lihat Audit Log<br/>Riwayat Aktivitas]
+    
+    UserMenu --> U1[👁️ Lihat Daftar Aset<br/>Cari & Filter]
+    UserMenu --> U2[📝 Ajukan Peminjaman<br/>Pilih Aset & Isi Form]
+    UserMenu --> U3[📋 Lihat Peminjaman Saya<br/>Status & Riwayat]
+    UserMenu --> U4[↩️ Kembalikan Aset<br/>Setelah Selesai Digunakan]
+    
+    SA1 --> Database[(Database)]
+    SA2 --> Database
+    SA3 --> Database
+    SA4 --> Database
+    SA5 --> Database
+    
+    U1 --> Database
+    U2 --> Database
+    U3 --> Database
+    U4 --> Database
+    
+    Database --> AuditLog[📝 Audit Log<br/>Mencatat Semua Aktivitas]
+    
+    LoginError --> Start
+    
+    style Start fill:#4caf50,color:#fff
+    style Login fill:#ffeb3b
+    style CheckRole fill:#ff9800,color:#fff
+    style SuperAdminMenu fill:#2196f3,color:#fff
+    style UserMenu fill:#9c27b0,color:#fff
+    style SA1 fill:#4caf50,color:#fff
+    style SA2 fill:#4caf50,color:#fff
+    style SA3 fill:#4caf50,color:#fff
+    style SA4 fill:#4caf50,color:#fff
+    style SA5 fill:#4caf50,color:#fff
+    style U1 fill:#2196f3,color:#fff
+    style U2 fill:#2196f3,color:#fff
+    style U3 fill:#2196f3,color:#fff
+    style U4 fill:#2196f3,color:#fff
+    style Database fill:#607d8b,color:#fff
+    style AuditLog fill:#9c27b0,color:#fff
+    style LoginError fill:#f44336,color:#fff
+            </div>
+        </div>
+
+        <h2 id="login">2. Flow Login - Masuk ke Sistem</h2>
+        <div class="user-story">
+            <strong>👤 User Story:</strong> Sebagai pengguna, saya ingin login ke sistem menggunakan email dan password saya agar bisa mengakses fitur aplikasi.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    Start([Buka Halaman Login]) --> Input[📝 Masukkan Email & Password]
+    
+    Input --> ClickLogin[🔐 Klik Tombol Login]
+    ClickLogin --> Validate{Validasi Data}
+    
+    Validate -->|Email/Password Kosong| Error1[❌ Harap Isi Email & Password]
+    Validate -->|Format Email Salah| Error2[❌ Format Email Tidak Valid]
+    Validate -->|Data Valid| CheckDB[(Cek di Database)]
+    
+    CheckDB -->|Email Tidak Ditemukan| Error3[❌ Email atau Password Salah]
+    CheckDB -->|Password Salah| Error3
+    CheckDB -->|Email & Password Benar| CheckActive{Akun Aktif?}
+    
+    CheckActive -->|Akun Nonaktif| Error4[❌ Akun Anda Dinonaktifkan<br/>Hubungi Administrator]
+    CheckActive -->|Akun Aktif| GenerateToken[🎫 Generate Token Akses]
+    
+    GenerateToken --> Success[✅ Login Berhasil!<br/>Redirect ke Dashboard]
+    
+    Error1 --> Input
+    Error2 --> Input
+    Error3 --> Input
+    Error4 --> Start
+    
+    Success --> Dashboard[Dashboard Berdasarkan Role]
+    
+    style Start fill:#4caf50,color:#fff
+    style Input fill:#2196f3,color:#fff
+    style ClickLogin fill:#ff9800,color:#fff
+    style Validate fill:#ffeb3b
+    style CheckDB fill:#9c27b0,color:#fff
+    style CheckActive fill:#ff9800,color:#fff
+    style GenerateToken fill:#4caf50,color:#fff
+    style Success fill:#4caf50,color:#fff
+    style Dashboard fill:#2196f3,color:#fff
+    style Error1 fill:#f44336,color:#fff
+    style Error2 fill:#f44336,color:#fff
+    style Error3 fill:#f44336,color:#fff
+    style Error4 fill:#f44336,color:#fff
+            </div>
+        </div>
+
+        <h2 id="superadmin">3. Super Admin Journey - Alur Kerja Administrator</h2>
+        <div class="user-story">
+            <strong>👨‍💼 User Story:</strong> Sebagai Super Admin, saya ingin mengelola semua aset, user, dan peminjaman agar sistem berjalan dengan baik.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    LoginSA([Super Admin Login]) --> DashboardSA[📊 Dashboard Super Admin]
+    
+    DashboardSA --> Menu{Pilih Menu}
+    
+    Menu -->|Kelola Aset| FlowAset[Flow Kelola Aset]
+    Menu -->|Kelola User| FlowUser[Flow Kelola User]
+    Menu -->|Kelola Peminjaman| FlowPeminjaman[Flow Kelola Peminjaman]
+    Menu -->|Lihat Laporan| FlowLaporan[Flow Lihat Laporan]
+    
+    FlowAset --> Aset1[➕ Tambah Aset Baru]
+    FlowAset --> Aset2[✏️ Edit Data Aset]
+    FlowAset --> Aset3[🗑️ Hapus Aset]
+    FlowAset --> Aset4[👁️ Lihat Daftar Aset]
+    
+    FlowUser --> User1[➕ Tambah User Baru]
+    FlowUser --> User2[✏️ Edit Data User]
+    FlowUser --> User3[🚫 Nonaktifkan User]
+    FlowUser --> User4[✅ Aktifkan User]
+    FlowUser --> User5[🗑️ Hapus User]
+    
+    FlowPeminjaman --> Pinjam1[✅ Setujui Peminjaman]
+    FlowPeminjaman --> Pinjam2[❌ Tolak Peminjaman]
+    FlowPeminjaman --> Pinjam3[👁️ Lihat Semua Peminjaman]
+    FlowPeminjaman --> Pinjam4[📊 Lihat Status Peminjaman]
+    
+    FlowLaporan --> Laporan1[📋 Laporan Aset]
+    FlowLaporan --> Laporan2[📋 Laporan Peminjaman]
+    FlowLaporan --> Laporan3[📝 Audit Log]
+    
+    Aset1 --> SaveAset[💾 Simpan ke Database]
+    Aset2 --> SaveAset
+    Aset3 --> SaveAset
+    Aset4 --> ViewAset[👁️ Tampilkan Data]
+    
+    User1 --> SaveUser[💾 Simpan ke Database]
+    User2 --> SaveUser
+    User3 --> SaveUser
+    User4 --> SaveUser
+    User5 --> SaveUser
+    
+    Pinjam1 --> SavePinjam[💾 Update Status]
+    Pinjam2 --> SavePinjam
+    Pinjam3 --> ViewPinjam[👁️ Tampilkan Data]
+    Pinjam4 --> ViewPinjam
+    
+    SaveAset --> AuditLog[📝 Catat di Audit Log]
+    SaveUser --> AuditLog
+    SavePinjam --> AuditLog
+    
+    ViewAset --> Success[✅ Selesai]
+    ViewPinjam --> Success
+    
+    AuditLog --> Success
+    
+    style LoginSA fill:#4caf50,color:#fff
+    style DashboardSA fill:#2196f3,color:#fff
+    style Menu fill:#ff9800,color:#fff
+    style FlowAset fill:#9c27b0,color:#fff
+    style FlowUser fill:#9c27b0,color:#fff
+    style FlowPeminjaman fill:#9c27b0,color:#fff
+    style FlowLaporan fill:#9c27b0,color:#fff
+    style Aset1 fill:#4caf50,color:#fff
+    style Aset2 fill:#4caf50,color:#fff
+    style Aset3 fill:#4caf50,color:#fff
+    style Aset4 fill:#4caf50,color:#fff
+    style User1 fill:#4caf50,color:#fff
+    style User2 fill:#4caf50,color:#fff
+    style User3 fill:#4caf50,color:#fff
+    style User4 fill:#4caf50,color:#fff
+    style User5 fill:#4caf50,color:#fff
+    style Pinjam1 fill:#4caf50,color:#fff
+    style Pinjam2 fill:#f44336,color:#fff
+    style Pinjam3 fill:#2196f3,color:#fff
+    style Pinjam4 fill:#2196f3,color:#fff
+    style AuditLog fill:#9c27b0,color:#fff
+    style Success fill:#4caf50,color:#fff
+            </div>
+        </div>
+
+        <h2 id="user-journey">4. User Journey - Alur Kerja Pengguna Biasa</h2>
+        <div class="user-story">
+            <strong>👤 User Story:</strong> Sebagai User, saya ingin melihat aset yang tersedia, meminjam aset yang saya butuhkan, dan mengembalikannya setelah selesai digunakan.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    LoginUser([User Login]) --> DashboardUser[📊 Dashboard User]
+    
+    DashboardUser --> MenuUser{Pilih Menu}
+    
+    MenuUser -->|Lihat Aset| LihatAset[👁️ Lihat Daftar Aset]
+    MenuUser -->|Pinjam Aset| PinjamAset[📝 Ajukan Peminjaman]
+    MenuUser -->|Lihat Peminjaman| LihatPinjam[📋 Lihat Peminjaman Saya]
+    MenuUser -->|Kembalikan Aset| KembalikanAset[↩️ Kembalikan Aset]
+    
+    LihatAset --> FilterAset[🔍 Filter/Cari Aset]
+    FilterAset --> TampilAset[📋 Tampilkan Daftar Aset]
+    TampilAset --> DetailAset[👁️ Lihat Detail Aset]
+    
+    PinjamAset --> PilihAset[🎯 Pilih Aset yang Ingin Dipinjam]
+    PilihAset --> IsiForm[📝 Isi Form Peminjaman<br/>- Tanggal Pengembalian<br/>- Catatan]
+    IsiForm --> SubmitPinjam[📤 Kirim Permohonan]
+    SubmitPinjam --> StatusPending[⏳ Status: MENUNGGU PERSETUJUAN]
+    
+    LihatPinjam --> ListPinjam[📋 Daftar Peminjaman Saya]
+    ListPinjam --> DetailPinjam[👁️ Lihat Detail Peminjaman]
+    DetailPinjam --> StatusPinjam{Status Peminjaman?}
+    
+    StatusPinjam -->|DISETUJUI| AmbilAset[✅ Ambil Aset<br/>Status: SEDANG DIGUNAKAN]
+    StatusPinjam -->|DITOLAK| Ditolak[❌ Peminjaman Ditolak]
+    StatusPinjam -->|SEDANG DIGUNAKAN| InfoPinjam[ℹ️ Aset Sedang Digunakan]
+    StatusPinjam -->|TERLAMBAT| WarningTelat[⚠️ Peminjaman Terlambat]
+    StatusPinjam -->|DIKEMBALIKAN| Selesai[✅ Sudah Dikembalikan]
+    
+    KembalikanAset --> PilihKembali[🎯 Pilih Peminjaman]
+    PilihKembali --> KonfirmasiKembali{Konfirmasi<br/>Pengembalian?}
+    KonfirmasiKembali -->|Ya| UpdateStatus[🔄 Update Status: DIKEMBALIKAN]
+    KonfirmasiKembali -->|Tidak| Batal[❌ Batal]
+    
+    UpdateStatus --> AsetKembali[✅ Aset Tersedia Lagi]
+    AsetKembali --> Selesai
+    
+    StatusPending --> Notifikasi[📧 Notifikasi ke Super Admin]
+    Notifikasi --> TungguPersetujuan[⏳ Menunggu Persetujuan]
+    
+    style LoginUser fill:#4caf50,color:#fff
+    style DashboardUser fill:#2196f3,color:#fff
+    style MenuUser fill:#ff9800,color:#fff
+    style LihatAset fill:#2196f3,color:#fff
+    style PinjamAset fill:#4caf50,color:#fff
+    style LihatPinjam fill:#2196f3,color:#fff
+    style KembalikanAset fill:#ff9800,color:#fff
+    style StatusPending fill:#ffeb3b
+    style AmbilAset fill:#4caf50,color:#fff
+    style Ditolak fill:#f44336,color:#fff
+    style UpdateStatus fill:#4caf50,color:#fff
+    style AsetKembali fill:#4caf50,color:#fff
+    style Selesai fill:#4caf50,color:#fff
+    style WarningTelat fill:#ff9800,color:#fff
+            </div>
+        </div>
+
+        <h2 id="pinjam">5. Flow Peminjaman Aset - Dari Pengajuan Hingga Pengembalian</h2>
+        <div class="user-story">
+            <strong>📝 User Story:</strong> Sebagai User, saya ingin meminjam aset dengan mudah, mengetahui status persetujuan, dan mengembalikannya tepat waktu.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    Start([User Ingin Meminjam Aset]) --> CekAset{Aset Tersedia?}
+    
+    CekAset -->|Tidak Tersedia| Error1[❌ Aset Tidak Tersedia<br/>Coba Aset Lain]
+    CekAset -->|Tersedia| IsiForm[📝 Isi Form Peminjaman]
+    
+    IsiForm --> InputData[📋 Input Data:<br/>- Pilih Aset<br/>- Tanggal Pengembalian<br/>- Catatan]
+    InputData --> Submit[📤 Kirim Permohonan]
+    
+    Submit --> Status1[⏳ Status: MENUNGGU PERSETUJUAN]
+    Status1 --> NotifAdmin[📧 Notifikasi ke Super Admin]
+    
+    NotifAdmin --> AdminReview{Super Admin<br/>Review Permohonan}
+    
+    AdminReview -->|Setujui| Status2[✅ Status: DISETUJUI]
+    AdminReview -->|Tolak| Status3[❌ Status: DITOLAK<br/>Dengan Alasan]
+    
+    Status2 --> UserAmbil{User Ambil Aset?}
+    UserAmbil -->|Ya| Status4[📦 Status: SEDANG DIGUNAKAN]
+    UserAmbil -->|Tidak| Status2
+    
+    Status4 --> CekWaktu{Cek Tanggal<br/>Pengembalian}
+    
+    CekWaktu -->|Belum Jatuh Tempo| MasihPinjam[ℹ️ Masih dalam Masa Pinjam]
+    CekWaktu -->|Sudah Jatuh Tempo| Status5[⚠️ Status: TERLAMBAT<br/>Auto Update]
+    
+    MasihPinjam --> UserKembalikan{User Kembalikan?}
+    Status5 --> UserKembalikan
+    
+    UserKembalikan -->|Ya| Status6[✅ Status: DIKEMBALIKAN]
+    UserKembalikan -->|Tidak| Status5
+    
+    Status6 --> AsetAvailable[🔄 Aset Tersedia Lagi]
+    AsetAvailable --> Selesai[✅ Proses Selesai]
+    
+    Status3 --> Selesai
+    
+    Error1 --> Start
+    
+    style Start fill:#4caf50,color:#fff
+    style CekAset fill:#ffeb3b
+    style IsiForm fill:#2196f3,color:#fff
+    style Submit fill:#4caf50,color:#fff
+    style Status1 fill:#ffeb3b
+    style Status2 fill:#4caf50,color:#fff
+    style Status3 fill:#f44336,color:#fff
+    style Status4 fill:#2196f3,color:#fff
+    style Status5 fill:#ff9800,color:#fff
+    style Status6 fill:#4caf50,color:#fff
+    style AsetAvailable fill:#4caf50,color:#fff
+    style Selesai fill:#4caf50,color:#fff
+    style Error1 fill:#f44336,color:#fff
+    style AdminReview fill:#ff9800,color:#fff
+            </div>
+        </div>
+
+        <h2 id="kelola-aset">6. Flow Kelola Aset - Super Admin</h2>
+        <div class="user-story">
+            <strong>📦 User Story:</strong> Sebagai Super Admin, saya ingin menambah, mengedit, dan menghapus aset agar data aset selalu up-to-date.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    Start([Super Admin Menu: Kelola Aset]) --> PilihAksi{Pilih Aksi}
+    
+    PilihAksi -->|Tambah Aset| TambahAset[➕ Tambah Aset Baru]
+    PilihAksi -->|Edit Aset| EditAset[✏️ Edit Aset]
+    PilihAksi -->|Hapus Aset| HapusAset[🗑️ Hapus Aset]
+    PilihAksi -->|Lihat Aset| LihatAset[👁️ Lihat Daftar Aset]
+    
+    TambahAset --> FormTambah[📝 Isi Form:<br/>- Kode Aset<br/>- Nama Aset<br/>- Nomor Seri<br/>- Kategori<br/>- Status<br/>- Kondisi<br/>- PIC]
+    FormTambah --> ValidasiTambah{Validasi Data}
+    
+    ValidasiTambah -->|Kode/Nomor Seri<br/>Sudah Ada| Error1[❌ Kode/Nomor Seri<br/>Sudah Digunakan]
+    ValidasiTambah -->|Data Valid| SimpanTambah[💾 Simpan Aset Baru]
+    
+    EditAset --> PilihAset[🎯 Pilih Aset yang Akan Diedit]
+    PilihAset --> FormEdit[📝 Edit Data Aset]
+    FormEdit --> ValidasiEdit{Validasi Data}
+    
+    ValidasiEdit -->|Data Tidak Valid| Error2[❌ Data Tidak Valid]
+    ValidasiEdit -->|Data Valid| SimpanEdit[💾 Simpan Perubahan]
+    
+    HapusAset --> PilihHapus[🎯 Pilih Aset yang Akan Dihapus]
+    PilihHapus --> Konfirmasi{Konfirmasi<br/>Penghapusan?}
+    
+    Konfirmasi -->|Ya| HapusDB[🗑️ Hapus dari Database]
+    Konfirmasi -->|Tidak| Batal[❌ Batal]
+    
+    LihatAset --> Filter[🔍 Filter/Cari Aset]
+    Filter --> Tampil[📋 Tampilkan Daftar]
+    
+    SimpanTambah --> Audit1[📝 Catat di Audit Log]
+    SimpanEdit --> Audit2[📝 Catat di Audit Log]
+    HapusDB --> Audit3[📝 Catat di Audit Log]
+    
+    Audit1 --> Success1[✅ Aset Berhasil Ditambahkan]
+    Audit2 --> Success2[✅ Aset Berhasil Diedit]
+    Audit3 --> Success3[✅ Aset Berhasil Dihapus]
+    Tampil --> Success4[✅ Data Ditampilkan]
+    
+    Error1 --> FormTambah
+    Error2 --> FormEdit
+    Batal --> Start
+    
+    Success1 --> Start
+    Success2 --> Start
+    Success3 --> Start
+    Success4 --> Start
+    
+    style Start fill:#4caf50,color:#fff
+    style PilihAksi fill:#ff9800,color:#fff
+    style TambahAset fill:#2196f3,color:#fff
+    style EditAset fill:#2196f3,color:#fff
+    style HapusAset fill:#f44336,color:#fff
+    style LihatAset fill:#2196f3,color:#fff
+    style ValidasiTambah fill:#ffeb3b
+    style ValidasiEdit fill:#ffeb3b
+    style SimpanTambah fill:#4caf50,color:#fff
+    style SimpanEdit fill:#4caf50,color:#fff
+    style HapusDB fill:#f44336,color:#fff
+    style Audit1 fill:#9c27b0,color:#fff
+    style Audit2 fill:#9c27b0,color:#fff
+    style Audit3 fill:#9c27b0,color:#fff
+    style Success1 fill:#4caf50,color:#fff
+    style Success2 fill:#4caf50,color:#fff
+    style Success3 fill:#4caf50,color:#fff
+    style Success4 fill:#4caf50,color:#fff
+    style Error1 fill:#f44336,color:#fff
+    style Error2 fill:#f44336,color:#fff
+            </div>
+        </div>
+
+        <h2 id="kelola-user">7. Flow Kelola User - Super Admin</h2>
+        <div class="user-story">
+            <strong>👥 User Story:</strong> Sebagai Super Admin, saya ingin menambah user baru, mengedit data user, dan mengaktifkan/nonaktifkan user sesuai kebutuhan.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+flowchart TD
+    Start([Super Admin Menu: Kelola User]) --> PilihAksi{Pilih Aksi}
+    
+    PilihAksi -->|Tambah User| TambahUser[➕ Tambah User Baru]
+    PilihAksi -->|Edit User| EditUser[✏️ Edit User]
+    PilihAksi -->|Nonaktifkan| Nonaktifkan[🚫 Nonaktifkan User]
+    PilihAksi -->|Aktifkan| Aktifkan[✅ Aktifkan User]
+    PilihAksi -->|Hapus User| HapusUser[🗑️ Hapus User]
+    PilihAksi -->|Lihat User| LihatUser[👁️ Lihat Daftar User]
+    
+    TambahUser --> FormTambah[📝 Isi Form:<br/>- Username<br/>- Email<br/>- Password<br/>- Role]
+    FormTambah --> ValidasiTambah{Validasi Data}
+    
+    ValidasiTambah -->|Username/Email<br/>Sudah Ada| Error1[❌ Username/Email<br/>Sudah Digunakan]
+    ValidasiTambah -->|Data Valid| HashPassword[🔐 Hash Password]
+    HashPassword --> SimpanTambah[💾 Simpan User Baru]
+    
+    EditUser --> PilihUser[🎯 Pilih User yang Akan Diedit]
+    PilihUser --> FormEdit[📝 Edit Data User]
+    FormEdit --> ValidasiEdit{Validasi Data}
+    
+    ValidasiEdit -->|Data Tidak Valid| Error2[❌ Data Tidak Valid]
+    ValidasiEdit -->|Data Valid| SimpanEdit[💾 Simpan Perubahan]
+    
+    Nonaktifkan --> PilihNonaktif[🎯 Pilih User]
+    PilihNonaktif --> Konfirmasi1{Konfirmasi<br/>Nonaktifkan?}
+    Konfirmasi1 -->|Ya| UpdateNonaktif[🔄 Set is_active = false]
+    Konfirmasi1 -->|Tidak| Batal1[❌ Batal]
+    
+    Aktifkan --> PilihAktif[🎯 Pilih User]
+    PilihAktif --> Konfirmasi2{Konfirmasi<br/>Aktifkan?}
+    Konfirmasi2 -->|Ya| UpdateAktif[🔄 Set is_active = true]
+    Konfirmasi2 -->|Tidak| Batal2[❌ Batal]
+    
+    HapusUser --> PilihHapus[🎯 Pilih User]
+    PilihHapus --> Konfirmasi3{Konfirmasi<br/>Penghapusan?}
+    Konfirmasi3 -->|Ya| HapusDB[🗑️ Hapus dari Database]
+    Konfirmasi3 -->|Tidak| Batal3[❌ Batal]
+    
+    LihatUser --> Filter[🔍 Filter/Cari User]
+    Filter --> Tampil[📋 Tampilkan Daftar]
+    
+    SimpanTambah --> Audit1[📝 Catat di Audit Log]
+    SimpanEdit --> Audit2[📝 Catat di Audit Log]
+    UpdateNonaktif --> Audit3[📝 Catat di Audit Log]
+    UpdateAktif --> Audit4[📝 Catat di Audit Log]
+    HapusDB --> Audit5[📝 Catat di Audit Log]
+    
+    Audit1 --> Success1[✅ User Berhasil Ditambahkan]
+    Audit2 --> Success2[✅ User Berhasil Diedit]
+    Audit3 --> Success3[✅ User Berhasil Dinonaktifkan]
+    Audit4 --> Success4[✅ User Berhasil Diaktifkan]
+    Audit5 --> Success5[✅ User Berhasil Dihapus]
+    Tampil --> Success6[✅ Data Ditampilkan]
+    
+    Error1 --> FormTambah
+    Error2 --> FormEdit
+    Batal1 --> Start
+    Batal2 --> Start
+    Batal3 --> Start
+    
+    Success1 --> Start
+    Success2 --> Start
+    Success3 --> Start
+    Success4 --> Start
+    Success5 --> Start
+    Success6 --> Start
+    
+    style Start fill:#4caf50,color:#fff
+    style PilihAksi fill:#ff9800,color:#fff
+    style TambahUser fill:#2196f3,color:#fff
+    style EditUser fill:#2196f3,color:#fff
+    style Nonaktifkan fill:#ff9800,color:#fff
+    style Aktifkan fill:#4caf50,color:#fff
+    style HapusUser fill:#f44336,color:#fff
+    style LihatUser fill:#2196f3,color:#fff
+    style ValidasiTambah fill:#ffeb3b
+    style ValidasiEdit fill:#ffeb3b
+    style HashPassword fill:#9c27b0,color:#fff
+    style SimpanTambah fill:#4caf50,color:#fff
+    style SimpanEdit fill:#4caf50,color:#fff
+    style UpdateNonaktif fill:#ff9800,color:#fff
+    style UpdateAktif fill:#4caf50,color:#fff
+    style HapusDB fill:#f44336,color:#fff
+    style Success1 fill:#4caf50,color:#fff
+    style Success2 fill:#4caf50,color:#fff
+    style Success3 fill:#4caf50,color:#fff
+    style Success4 fill:#4caf50,color:#fff
+    style Success5 fill:#4caf50,color:#fff
+    style Success6 fill:#4caf50,color:#fff
+    style Error1 fill:#f44336,color:#fff
+    style Error2 fill:#f44336,color:#fff
+            </div>
+        </div>
+
+        <h2 id="status-loan">8. Status Peminjaman - Perjalanan Status dari Awal Hingga Akhir</h2>
+        <div class="user-story">
+            <strong>📊 User Story:</strong> Sebagai pengguna, saya ingin memahami status peminjaman saya dan apa yang harus saya lakukan di setiap tahap.
+        </div>
+        <div class="diagram-container">
+            <div class="mermaid">
+stateDiagram-v2
+    [*] --> MENUNGGU_PERSETUJUAN: User Ajukan Peminjaman
+    
+    MENUNGGU_PERSETUJUAN: Status: MENUNGGU PERSETUJUAN
+    MENUNGGU_PERSETUJUAN: Aksi User: Menunggu
+    MENUNGGU_PERSETUJUAN: Aksi Admin: Review & Setujui/Tolak
+    
+    MENUNGGU_PERSETUJUAN --> DISETUJUI: Super Admin Setujui
+    MENUNGGU_PERSETUJUAN --> DITOLAK: Super Admin Tolak
+    
+    DISETUJUI: Status: DISETUJUI
+    DISETUJUI: Aksi User: Ambil Aset
+    DISETUJUI: Aksi Admin: -
+    
+    DISETUJUI --> SEDANG_DIGUNAKAN: User Ambil Aset
+    DISETUJUI --> DITOLAK: Admin Tolak (sebelum diambil)
+    
+    SEDANG_DIGUNAKAN: Status: SEDANG DIGUNAKAN
+    SEDANG_DIGUNAKAN: Aksi User: Gunakan Aset
+    SEDANG_DIGUNAKAN: Aksi Admin: Monitor
+    
+    SEDANG_DIGUNAKAN --> TERLAMBAT: Tanggal Jatuh Tempo Lewat
+    SEDANG_DIGUNAKAN --> DIKEMBALIKAN: User Kembalikan Aset
+    
+    TERLAMBAT: Status: TERLAMBAT
+    TERLAMBAT: Aksi User: Segera Kembalikan
+    TERLAMBAT: Aksi Admin: Reminder
+    
+    TERLAMBAT --> DIKEMBALIKAN: User Kembalikan Aset
+    
+    DIKEMBALIKAN: Status: DIKEMBALIKAN
+    DIKEMBALIKAN: Aksi User: Selesai
+    DIKEMBALIKAN: Aksi Admin: Verifikasi
+    
+    DITOLAK: Status: DITOLAK
+    DITOLAK: Aksi User: Cek Alasan
+    DITOLAK: Aksi Admin: Beri Alasan
+    
+    DITOLAK --> [*]
+    DIKEMBALIKAN --> [*]
+            </div>
+        </div>
+
+        <div class="info" style="margin-top: 40px;">
+            <strong>📝 Penjelasan Status Peminjaman:</strong>
+            <ul>
+                <li><strong>MENUNGGU PERSETUJUAN:</strong> User sudah mengajukan, menunggu Super Admin menyetujui</li>
+                <li><strong>DISETUJUI:</strong> Super Admin sudah menyetujui, User bisa mengambil aset</li>
+                <li><strong>DITOLAK:</strong> Super Admin menolak permohonan dengan alasan tertentu</li>
+                <li><strong>SEDANG DIGUNAKAN:</strong> User sudah mengambil dan sedang menggunakan aset</li>
+                <li><strong>TERLAMBAT:</strong> Tanggal pengembalian sudah lewat, aset belum dikembalikan</li>
+                <li><strong>DIKEMBALIKAN:</strong> Aset sudah dikembalikan, proses selesai</li>
+            </ul>
+        </div>
+
+        <div class="user-story" style="margin-top: 40px;">
+            <strong>💡 Tips Penggunaan:</strong>
+            <ul>
+                <li>Pastikan email dan password Anda benar saat login</li>
+                <li>Isi form peminjaman dengan lengkap dan benar</li>
+                <li>Perhatikan tanggal pengembalian agar tidak terlambat</li>
+                <li>Kembalikan aset tepat waktu untuk menghindari status TERLAMBAT</li>
+                <li>Super Admin dapat melihat semua aktivitas di Audit Log</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
